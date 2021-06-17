@@ -1,14 +1,21 @@
-
 const form = document.getElementById("form");
+const heroButton = document.getElementById("getHeroes");
 
 const url = "http://localhost:3000/hero"
+const heroContent = document.getElementById("heroContent");
 const heroes = [];
 
-function getHeroes() {
+
+
+async function getHeroes() {
     // make fetch call to backend with get method
-    fetch(url)
-    .then(response => response.json())
-    .then(data => console.log(data));
+    const response = await fetch(url);
+
+    const data = await response.json();
+    console.log(data);
+    data.forEach(hero => {
+        heroContent.innerText += `Hero Name: ${hero.heroName}, Hero Power: ${hero.heroPower}, Sidekick: ${hero.sidekick}, Catchphrase: ${hero.catchPhrase}`
+    })
 }
 
 postHero = (e) => {
@@ -39,6 +46,5 @@ postHero = (e) => {
     //console.log(result);
 }
 
-form.addEventListener("submit", postHero)
-
-getHeroes()
+form.addEventListener("submit", postHero);
+heroButton.addEventListener("click", getHeroes);
